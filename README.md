@@ -1,4 +1,122 @@
 # Article-Monitoring-system-utilization-rate
+### EN ###
+## CPU Simulations ##
+For CPU processing, the environment was built using a virtual machine - MV, created in Virtual Box and configured with the necessary dependencies. Each scenario has different resources in terms of \textit{hardware}. The following dependencies were used to run the tests:
+
+- Virtual Box version 6.1[^1]
+- YOLO architecture version 8.0[^2]
+- Pip version 22.0[^3]
+- Python version 3.10[^4]
+- Ubuntu 22.04 LTS version *server*[^5]
+- Github[^6]
+- Packages numpy[^7], torch[^8], opencv[^9] and ultralytics[^10]
+
+For both CPU and GPU simulations, a random arrival rate was used to simulate the Poisson distribution. Figure 01 shows this distribution over time.
+
+![Time between arrivals graph](https://github.com/user-attachments/assets/e3ebf7b5-70ad-4960-aa69-6256d400a0f9)
+
+*Figure 01: Time between arrivals graph*
+
+![Teste_1cpu (1)](https://github.com/user-attachments/assets/2b4ff02c-0a2a-4dc2-9a9e-767abe103c65)
+
+*Figure 02: Service time graph*
+
+![Teste_1cpu (2)](https://github.com/user-attachments/assets/d9d38f9a-02f6-4907-836b-94dc2d566c27)
+
+*Figure 03: Graph of the waiting time*
+
+| scenario | $\rho$       |
+|---------|--------------|
+| MV-1    | $\approx 9,07$ |
+| MV-2    | $\approx 9,06$ |
+| MV-3    | $\approx 5,25$ |
+| MV-4    | $\approx 5,05$ |
+| MV-5    | $\approx 4,93$ |
+| MV-6    | $\approx 4,39$ |
+| MV-7    | $\approx 4,31$ |
+
+*Table 01: System utilization rate values ​​for the M/M/1 model of all VMs.*
+
+The Utilization Rate $\rho$ is given by:
+
+$$
+\rho = \frac{\lambda}{c \cdot \mu} = \frac{1000}{1 \times 110.19} \approx 9.07
+$$
+
+The Average Waiting Time in Queue $W_q$ is given by:
+
+$$
+W_q = \frac{\rho}{\mu (1 - \rho)}
+$$
+
+The denominator $1 - \rho$ is negative, resulting in a negative value for \(W_q\), indicating that the formula does not apply to an unstable system.
+
+The Average Time in System $W$ is given by:
+
+$$
+W = W_q + \frac{1}{\mu}
+$$
+
+Since $W_q$ is negative, the total time in the system is also negative, which does not match reality, so it is necessary to adjust the queue model.
+
+The Average Number of Customers in Queue $L_q$ is given by:
+
+$$
+L_q = \lambda \cdot W_q
+$$
+
+This also results in a negative value.
+
+The Average Number of Customers in System $L$ is given by:
+
+$$
+L = L_q + \frac{\lambda}{\mu}
+$$
+
+Since $L_q$ is negative, $L$ is also inconsistent.
+
+| Parameter | Value |
+|-----------|-------|
+| Number of Servers | 10 |
+| Utilization Rate $\rho$ | 0.9074 |
+| Average waiting time in queue $W_q$ (minutes) | 0.00678 |
+| Average time in system $W$ (minutes) | 0.01585 |
+| Average number of customers in queue $L_q$ | 6.78005 |
+| Average number of customers in system $L$ | 15.85501 |
+| Average number of busy servers | 9.07496 |
+
+*Table 02: Waiting and system utilization parameters for MV-1.*
+
+Table 03 presents the values ​​obtained for the new queue model with $c = 10$.
+
+| MV | $c$ | $W_q$ | $W$ | $L_q$ | $L$ | $c_{ocup}$ | $\rho$ |
+|----|-----|-------|-------|-------|-------|------------|--------|
+| 1  | 10  | $\approx 0,0075$ | $\approx 0,0165$ | $\approx 7,4712$ | $\approx 16,5461$ | $\approx 7,4712$ | 90,75% |
+| 2  | 10  | $\approx 0,0074$ | $\approx 0,0164$ | $\approx 7,3729$ | $\approx 16,4391$ | $\approx 7,3729$ | 90,66% |
+| 3  | 6   | $\approx 0,0055$ | $\approx 0,0107$ | $\approx 5,4618$ | $\approx 10,7132$ | $\approx 5,4618$ | 87,52% |
+| 4  | 6   | $\approx 0,0038$ | $\approx 0,0089$ | $\approx 3,8383$ | $\approx 8,8903$ | $\approx 3,8383$ | 84,2% |
+| 5  | 6   | $\approx 0,0033$ | $\approx 0,0082$ | $\approx 3,2578$ | $\approx 8,2082$ | $\approx 3,2578$ | 82,51% |
+| 6  | 5   | $\approx 0,0060$ | $\approx 0,0104$ | $\approx 5,9528$ | $\approx 10,3503$ | $\approx 5,9528$ | 87,95% |
+| 7  | 5   | $\approx 0,0050$ | $\approx 0,0093$ | $\approx 5,0265$ | $\approx 9,3462$ | $\approx 5,0265$ | 86,4% |
+
+*Table 03: Table of the number of servers, queue waiting parameters and system utilization in all VMs.*
+
+## GPU simulation ##
+
+The GPU test scenario was built using Docker to create the processing environment, configured with the necessary dependencies. The following dependencies were used to run the tests:
+
+- Ubuntu 22.04 WSL[^11]
+- Docker[^12]
+- Python version 3.10 or higher[^13]
+- Inference Docker image[^14]
+- Docker image of the API that receives the images[^15]
+
+
+
+
+
+
+### PT-BR ###
 ## Simulações em CPU ##
 Para o processamento em CPU, o ambiente foi construído utilizando máquina virtual - MV, criada no Virtual Box e configurada com as dependências necessárias. Cada cenário possui diferentes recursos em termos de \textit{hardware}. As seguintes dependências foram utilizadas para a execução dos testes:
 
@@ -132,12 +250,12 @@ O cenário de teste em GPU foi construído utilizando o Docker para criação do
 
 ![GPU_1](https://github.com/user-attachments/assets/1ff53f50-85fb-4e02-bdfe-a9995f5a0a52)
 
-*Figura 04: Tabela do número de servidores, parâmetros de espera na fila e utilização do sistema em todas as MVs.*
+*Figura 04: Gráfico de tempo de serviço.*
 
 ![GPU_2](https://github.com/user-attachments/assets/d98f8241-5216-41bb-87bc-55fa22c09b99)
 
-*Figura 05: Tabela do número de servidores, parâmetros de espera na fila e utilização do sistema em todas as MVs.*
-Aqui está a análise baseada na teoria de filas com os parâmetros fornecidos:
+*Figura 05: Gráfico do tempo de espera.*
+
 
 A Taxa de Utilização do Sistema $\rho$ é dada por:
 
