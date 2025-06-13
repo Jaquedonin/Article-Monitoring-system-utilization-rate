@@ -111,7 +111,85 @@ The GPU test scenario was built using Docker to create the processing environmen
 - Inference Docker image[^14]
 - Docker image of the API that receives the images[^15]
 
+![GPU_1](https://github.com/user-attachments/assets/1ff53f50-85fb-4e02-bdfe-a9995f5a0a52)
 
+*Figure 04: Service time graph.*
+
+![GPU_2](https://github.com/user-attachments/assets/d98f8241-5216-41bb-87bc-55fa22c09b99)
+
+*Figure 05: Waiting time graph.*
+
+The System Utilization Rate $\rho$ is given by:
+
+$$
+\rho = \frac{\lambda}{c \cdot \mu}
+$$
+
+Substituting the values:
+
+$$
+\rho = \frac{1000}{1 \times 3301.86} = 0.303
+$$
+
+This means that, on average, 30.3% of the server capacity is being used.
+
+The Average Queue Waiting Time $W_q$ for M/M/1 systems is given by:
+
+$$
+W_q = \frac{0.303}{3301.86 \times (1 - 0.303)}
+$$
+
+$$
+W_q \approx 0.0004
+$$
+
+Which indicates that a customer waits about $0.000132$ milliseconds before being served.
+
+The Average Time Spent in the System $W$ is given by the total time a customer spends in the system (waiting + service) and is given by:
+
+$$
+W = 0.000132 + \frac{1}{3301.86}
+$$
+
+$$
+W \approx 0.0007
+$$
+
+This means that, on average, a customer spends about $0.000435$ milliseconds in the system.
+
+The Expected Number of Customers in Queue $L_q$ is given by:
+
+$$
+L_q = 1000 \times 0.000132 = 0.4344
+$$
+
+This means that, on average, there are $0.4344$ customers waiting in the queue.
+
+The Expected Number of Customers in System $L$ is:
+
+$$
+L = 1000 \times 0.000435 = 0.7373
+$$
+
+In other words, the system has, on average, $0.4344$ customers (queue + service).
+
+Since there is only one server, the occupancy is simply:
+
+$$
+c_{ocupados} = \rho \times c = 0.303 \times 1 = 0.303
+$$
+
+This means that, on average, the server is busy 30.3% of the time. Unlike the CPU simulations presented previously, in this case, the M/M/1 model meets the system demand. In fact, there is an underutilization of the GPU, since the server remains busy only 30% of the time.
+
+| **Parameter** | **Formula** | **Approximate Value** | **Description** |
+|---------------|-------------|----------------------|---------------|
+| Average Waiting Time in Queue ($W_q$) | $\frac{0,303}{3301,86 \times (1 - 0,303)}$ | $\approx 0,0004$ |  A customer waits about 0.000132 milliseconds before being served. |
+| Average Time Spent in System ($W$) | $0,000132 + \frac{1}{3301,86}$ | $\approx 0,0007$ | A customer spends about 0.000435 milliseconds in the system. |
+| Expected Number of Customers in Queue ($L_q$) | $1000 \times 0,000132$ | $\approx 0,4344$ | On average, there are 0.4344 customers waiting in line. |
+| Expected Number of Customers in the System ($L$) | $1000 \times 0,000435$ | $\approx 0,7373$ | The system has, on average, 0.7373 customers (queue + service). |
+| Average Number of Busy Servers ($c_{ocupados}$) | $0,303 \times 1$ | $\approx 0,303$ | Occupancy of the single server. |
+
+*Table 04: Performance parameters using GPU and an M/M/1 system.*
 
 
 
