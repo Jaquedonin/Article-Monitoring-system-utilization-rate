@@ -1,4 +1,4 @@
-# Article-Monitoring-system-utilization-rate
+# Queueing Theory for Verifying the Utilization Rate of an Image Processing System
 ### EN ###
 ## CPU Simulations ##
 For CPU processing, the environment was built using a virtual machine - MV, created in Virtual Box and configured with the necessary dependencies. Each scenario has different resources in terms of \textit{hardware}. The following dependencies were used to run the tests:
